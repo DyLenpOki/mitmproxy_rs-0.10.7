@@ -19,16 +19,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84  # v2.7.3
+      - uses: actions/checkout@v6
+      - uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4  # v2.9.1
         timeout-minutes: 2
         continue-on-error: true
       - name: Install maturin[zig] from PyPI
-        uses: install-pinned/maturin-with-zig@4804d730717f28b7565e71e68e5c9fe8c4f9b089
+        uses: install-pinned/maturin-with-zig@6d6efe60fc7e0aaab814eb56cc251fc611367dd8
       - name: Install mypy from PyPI
-        uses: install-pinned/mypy@2b552bed479e3f7065314667b670f7303619e989
+        uses: install-pinned/mypy@75779f141592e4909d64e13f8a1861f06aa9cd8d
       - name: Install pdoc from PyPI
-        uses: install-pinned/pdoc@fd9469ecb06f32b7012e07e449ce98b217bf1189
+        uses: install-pinned/pdoc@69ba59f9699df21e1026110af4ec6b10a98cf5cd
 
       - run: maturin build
         working-directory: ./mitmproxy-rs
@@ -38,7 +38,7 @@ jobs:
 
       - run: pdoc -o docs/ mitmproxy_rs
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: docs/
 
@@ -56,4 +56,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
