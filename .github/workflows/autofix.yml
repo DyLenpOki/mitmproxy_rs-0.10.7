@@ -17,14 +17,14 @@ jobs:
   protobuf:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - run: brew install swift-protobuf
       - run: cargo install protoc-gen-prost
       - run: protoc --proto_path=./src/ipc/ mitmproxy_ipc.proto
           --prost_out=./src/ipc/
           --swift_out=./mitmproxy-macos/redirector/ipc
       - run: cargo fmt --all
-      - uses: autofix-ci/action@dd55f44df8f7cdb7a6bf74c78677eb8acd40cd0a
+      - uses: autofix-ci/action@c5b2d67aa2274e7b5a18224e8171550871fc7e4a
 
   rustfmt:
     runs-on: ${{ matrix.os }}
@@ -35,14 +35,14 @@ jobs:
           - os: macos-latest
           - os: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.rust_clippy }} --profile minimal --component rustfmt --component clippy
       - run: rustup default ${{ env.rust_clippy }}
-      - uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84  # v2.7.3
+      - uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4  # v2.9.1
         timeout-minutes: 2
         continue-on-error: true
       # PyO3 wants recent Python on Windows.
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version-file: .github/python-version.txt
 
@@ -50,4 +50,4 @@ jobs:
       - run: cargo fmt --all
       - run: git checkout src/ipc/mitmproxy_ipc.rs
 
-      - uses: autofix-ci/action@dd55f44df8f7cdb7a6bf74c78677eb8acd40cd0a
+      - uses: autofix-ci/action@c5b2d67aa2274e7b5a18224e8171550871fc7e4a
